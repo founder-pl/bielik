@@ -1,0 +1,128 @@
+# Bielik MVP - Docker Compose
+# Uruchom: docker compose up -d
+
+version: '3.8'
+
+services:
+  # ============================================
+  # LLM Backend - Ollama z modelem Bielik
+  # ============================================
+  ollama:
+    image: ollama/ollama:latest
+    container_name: bielik-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_KEEP_ALIVE=24h
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    # ----------------------------------------
+    # Dla GPU NVIDIA odkomentuj poniższe:
+    # ----------------------------------------
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+  # ============================================
+  # Baza danych - PostgreSQL z pgvector
+  # ============================================
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: bielik-postgres
+    environment:
+      POSTGRES_USER: bielik
+      POSTGRES_PASSWORD: bielik_dev_2024
+      POSTGRES_DB: bielik_knowledge
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bielik -d bielik_knowledge"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # API Backend - FastAPI z RAG
+  # ============================================
+  api:
+    build: 
+      context: ./modules/api
+      dockerfile: Dockerfile
+    container_name: bielik-api
+    environment:
+      DATABASE_URL: postgresql://bielik:bielik_dev_2024@postgres:5432/bielik_knowledge
+      OLLAMA_URL: http://ollama:11434
+      OLLAMA_MODEL: mwiewior/bielik
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================
+  # Frontend - Nginx ze statycznym HTML/JS
+  # ============================================
+  frontend:
+    build:
+      context: ./modules/frontend
+      dockerfile: Dockerfile
+    container_name: bielik-frontend
+    depends_on:
+      - api
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+
+  # ============================================
+  # Model Loader - jednorazowe pobranie modelu
+  # ============================================
+  model-loader:
+    image: curlimages/curl:latest
+    container_name: bielik-model-loader
+    depends_on:
+      ollama:
+        condition: service_started
+    entrypoint: >
+      sh -c "
+        echo 'Czekam na Ollama...' &&
+        sleep 15 &&
+        echo 'Pobieram model Bielik...' &&
+        curl -X POST http://ollama:11434/api/pull -d '{\"name\": \"mwiewior/bielik\"}' &&
+        echo 'Model pobrany!'
+      "
+    restart: "no"
+
+volumes:
+  ollama_data:
+    name: bielik-ollama-data
+  postgres_data:
+    name: bielik-postgres-data
+
+networks:
+  default:
+    name: bielik-network

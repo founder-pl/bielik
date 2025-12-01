@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦅 Bielik MVP - Asystent AI dla przedsiębiorców</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦅</text></svg>">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🦅</span>
+                <h1>Bielik MVP</h1>
+            </div>
+            <p class="tagline">Twój AI asystent prawno-podatkowy</p>
+            <div class="status" id="status">
+                <span class="status-dot"></span>
+                <span class="status-text">Sprawdzam połączenie...</span>
+            </div>
+        </header>
+
+        <!-- Module selector -->
+        <nav class="modules">
+            <button class="module-btn active" data-module="default">
+                <span class="module-icon">💬</span>
+                <span class="module-name">Ogólne</span>
+            </button>
+            <button class="module-btn" data-module="ksef">
+                <span class="module-icon">📄</span>
+                <span class="module-name">KSeF</span>
+            </button>
+            <button class="module-btn" data-module="b2b">
+                <span class="module-icon">💼</span>
+                <span class="module-name">B2B</span>
+            </button>
+            <button class="module-btn" data-module="zus">
+                <span class="module-icon">🏥</span>
+                <span class="module-name">ZUS</span>
+            </button>
+            <button class="module-btn" data-module="vat">
+                <span class="module-icon">💰</span>
+                <span class="module-name">VAT</span>
+            </button>
+        </nav>
+
+        <!-- Main chat area -->
+        <main class="chat-container">
+            <div id="messages" class="messages">
+                <!-- Welcome message -->
+                <div class="message assistant">
+                    <div class="message-avatar">🦅</div>
+                    <div class="message-content">
+                        <p>Cześć! Jestem <strong>Bielikiem</strong> - polskim asystentem AI dla przedsiębiorców.</p>
+                        <p>Mogę pomóc Ci z:</p>
+                        <ul>
+                            <li><strong>KSeF</strong> - terminy, wymagania, procedury e-faktur</li>
+                            <li><strong>B2B</strong> - ryzyko przekwalifikowania umowy na etat</li>
+                            <li><strong>ZUS</strong> - składki, ubezpieczenia, obliczenia</li>
+                            <li><strong>VAT</strong> - JPK, VAT OSS, rozliczenia</li>
+                        </ul>
+                        <p>Wybierz moduł powyżej i zadaj pytanie!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input area -->
+            <form id="chat-form" class="input-area">
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="user-input" 
+                        placeholder="Zadaj pytanie..." 
+                        autocomplete="off"
+                        maxlength="2000"
+                    >
+                    <button type="submit" id="send-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+                <div class="input-hints">
+                    <span class="current-module" id="current-module">Moduł: Ogólne</span>
+                    <span class="char-count" id="char-count">0/2000</span>
+                </div>
+            </form>
+        </main>
+
+        <!-- Sources panel -->
+        <aside id="sources-panel" class="sources-panel hidden">
+            <div class="sources-header">
+                <h3>📚 Źródła</h3>
+                <button class="close-btn" id="close-sources">×</button>
+            </div>
+            <ul id="sources-list" class="sources-list"></ul>
+        </aside>
+
+        <!-- Quick questions -->
+        <section class="quick-questions" id="quick-questions">
+            <h4>Popularne pytania:</h4>
+            <div class="quick-btns">
+                <button class="quick-btn" data-question="Kiedy KSeF będzie obowiązkowy?" data-module="ksef">
+                    Kiedy KSeF będzie obowiązkowy?
+                </button>
+                <button class="quick-btn" data-question="Jak ocenić czy moja umowa B2B jest bezpieczna?" data-module="b2b">
+                    Czy moja umowa B2B jest bezpieczna?
+                </button>
+                <button class="quick-btn" data-question="Ile wynosi składka zdrowotna na ryczałcie w 2025?" data-module="zus">
+                    Składka zdrowotna 2025 ryczałt
+                </button>
+                <button class="quick-btn" data-question="Co to jest VAT OSS i kiedy go stosować?" data-module="vat">
+                    Co to VAT OSS?
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
