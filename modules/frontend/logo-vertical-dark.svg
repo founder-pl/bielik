@@ -1,0 +1,10 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&amp;display=swap');
+      .logo-text { font-family: 'Archivo Black', Arial Black, sans-serif; font-size: 36px; font-weight: 900; letter-spacing: -1px; }
+    </style>
+  </defs>
+  <text x="50" y="42" text-anchor="middle" class="logo-text" fill="#ffffff">de</text>
+  <text x="50" y="82" text-anchor="middle" class="logo-text" fill="#22c55e">tax</text>
+</svg>

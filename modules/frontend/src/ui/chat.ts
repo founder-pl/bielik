@@ -18,6 +18,22 @@ interface ChatSource {
   similarity: number;
 }
 
+function initChannels(): void {
+  const channelItems = document.querySelectorAll<HTMLElement>('.channel-item');
+  if (!channelItems.length) return;
+
+  channelItems.forEach((item) => {
+    item.addEventListener('click', () => {
+      const moduleId = item.dataset.module as ModuleId | undefined;
+      if (!moduleId) return;
+
+      channelItems.forEach((i) => i.classList.remove('active'));
+      item.classList.add('active');
+      setModule(moduleId);
+    });
+  });
+}
+
 interface ChatResponse {
   response: string;
   sources?: ChatSource[];
@@ -61,6 +77,7 @@ export function initChat(): void {
   if (!elements.form || !elements.input || !elements.messages) return;
 
   initModuleButtons();
+  initChannels();
   initForm();
   initQuickQuestions();
   initSourcesPanel();

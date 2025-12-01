@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detax - Brand Guidelines & Landing Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           DETAX BRAND SYSTEM
+           ============================================ */
+        
+        :root {
+            /* PRIMARY PALETTE */
+            --detax-black: #0a0a0a;
+            --detax-dark: #0f172a;
+            --detax-slate: #1e293b;
+            --detax-gray: #334155;
+            
+            /* ACCENT - DETOX GREEN */
+            --detax-green: #22c55e;
+            --detax-green-dark: #16a34a;
+            --detax-green-light: #4ade80;
+            --detax-green-glow: rgba(34, 197, 94, 0.3);
+            
+            /* TEXT */
+            --detax-white: #ffffff;
+            --detax-text: #f1f5f9;
+            --detax-text-secondary: #94a3b8;
+            --detax-text-muted: #64748b;
+            
+            /* SEMANTIC */
+            --detax-success: #22c55e;
+            --detax-warning: #f59e0b;
+            --detax-error: #ef4444;
+            --detax-info: #3b82f6;
+            
+            /* SPACING */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+            --space-4xl: 96px;
+            
+            /* RADIUS */
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+            
+            /* TYPOGRAPHY */
+            --font-display: 'Archivo Black', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--detax-black);
+            color: var(--detax-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: var(--space-md) var(--space-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .nav-logo .de { color: var(--detax-white); }
+        .nav-logo .tax { color: var(--detax-green); }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--detax-text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--detax-green);
+        }
+
+        .nav-cta {
+            background: var(--detax-green);
+            color: var(--detax-black);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .nav-cta:hover {
+            background: var(--detax-green-light);
+            transform: translateY(-2px);
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--space-4xl) var(--space-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, var(--detax-green-glow), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 60%, rgba(34, 197, 94, 0.1), transparent);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero-logo {
+            font-family: var(--font-display);
+            font-size: clamp(4rem, 15vw, 10rem);
+            letter-spacing: -6px;
+            line-height: 1;
+            margin-bottom: var(--space-lg);
+            animation: heroFadeIn 1s ease-out;
+        }
+
+        .hero-logo .de { color: var(--detax-white); }
+        .hero-logo .tax { color: var(--detax-green); }
+
+        @keyframes heroFadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-tagline {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: var(--detax-text-secondary);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 300;
+            margin-bottom: var(--space-2xl);
+            animation: heroFadeIn 1s ease-out 0.2s backwards;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--detax-text-secondary);
+            max-width: 600px;
+            margin: 0 auto var(--space-2xl);
+            animation: heroFadeIn 1s ease-out 0.4s backwards;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: heroFadeIn 1s ease-out 0.6s backwards;
+        }
+
+        .btn-primary {
+            background: var(--detax-green);
+            color: var(--detax-black);
+            padding: var(--space-md) var(--space-xl);
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: 2px solid var(--detax-green);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--detax-green);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px var(--detax-green-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--detax-text);
+            padding: var(--space-md) var(--space-xl);
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: 2px solid var(--detax-gray);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--detax-text-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* ============================================
+           FEATURES SECTION
+           ============================================ */
+        
+        .features {
+            padding: var(--space-4xl) var(--space-xl);
+            background: var(--detax-dark);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto var(--space-3xl);
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            color: var(--detax-green);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            letter-spacing: -2px;
+            margin-bottom: var(--space-md);
+        }
+
+        .section-description {
+            color: var(--detax-text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--detax-slate);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--detax-green);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--detax-green), var(--detax-green-dark));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+        }
+
+        .feature-description {
+            color: var(--detax-text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* ============================================
+           BRAND GUIDELINES SECTION
+           ============================================ */
+        
+        .brand-section {
+            padding: var(--space-4xl) var(--space-xl);
+            background: var(--detax-black);
+        }
+
+        .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-2xl);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .brand-card {
+            background: var(--detax-dark);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            border: 1px solid var(--detax-slate);
+        }
+
+        .brand-card-title {
+            font-size: 0.85rem;
+            color: var(--detax-green);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: var(--space-xl);
+        }
+
+        /* Logo Variants */
+        .logo-variants {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xl);
+        }
+
+        .logo-variant {
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .logo-variant.dark {
+            background: var(--detax-black);
+            border: 1px solid var(--detax-slate);
+        }
+
+        .logo-variant.light {
+            background: #f8fafc;
+        }
+
+        .logo-horizontal {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            letter-spacing: -2px;
+        }
+
+        .logo-horizontal.dark-version .de { color: var(--detax-white); }
+        .logo-horizontal.dark-version .tax { color: var(--detax-green); }
+        .logo-horizontal.light-version .de { color: var(--detax-dark); }
+        .logo-horizontal.light-version .tax { color: var(--detax-green-dark); }
+
+        .logo-vertical {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            letter-spacing: -1px;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        .logo-vertical .de,
+        .logo-vertical .tax {
+            display: block;
+        }
+
+        .logo-box {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+        }
+
+        .logo-box.dark-version {
+            background: linear-gradient(135deg, var(--detax-slate), var(--detax-dark));
+            border: 2px solid var(--detax-green);
+        }
+
+        .logo-box.dark-version span { color: var(--detax-white); }
+
+        .logo-box.light-version {
+            background: var(--detax-green);
+        }
+
+        .logo-box.light-version span { color: var(--detax-dark); }
+
+        .variant-label {
+            font-size: 0.75rem;
+            color: var(--detax-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .logo-variant.light .variant-label {
+            color: #64748b;
+        }
+
+        /* Color Palette */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+        }
+
+        .color-swatch {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .color-preview {
+            height: 80px;
+            display: flex;
+            align-items: flex-end;
+            padding: var(--space-sm);
+        }
+
+        .color-info {
+            padding: var(--space-md);
+            background: var(--detax-slate);
+        }
+
+        .color-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: var(--space-xs);
+        }
+
+        .color-value {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: var(--detax-text-secondary);
+        }
+
+        /* Typography */
+        .type-sample {
+            margin-bottom: var(--space-xl);
+        }
+
+        .type-label {
+            font-size: 0.75rem;
+            color: var(--detax-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--space-sm);
+        }
+
+        .type-display {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            letter-spacing: -1px;
+        }
+
+        .type-body {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+        }
+
+        .type-weights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            margin-top: var(--space-md);
+        }
+
+        .type-weight {
+            padding: var(--space-sm) var(--space-md);
+            background: var(--detax-slate);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+        }
+
+        /* Spacing & Guidelines */
+        .guideline-item {
+            padding: var(--space-md);
+            background: var(--detax-slate);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-md);
+            border-left: 3px solid var(--detax-green);
+        }
+
+        .guideline-do {
+            border-left-color: var(--detax-green);
+        }
+
+        .guideline-dont {
+            border-left-color: var(--detax-error);
+        }
+
+        .guideline-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--space-xs);
+        }
+
+        .guideline-do .guideline-label { color: var(--detax-green); }
+        .guideline-dont .guideline-label { color: var(--detax-error); }
+
+        .guideline-text {
+            font-size: 0.9rem;
+            color: var(--detax-text-secondary);
+        }
+
+        /* ============================================
+           CSS MIGRATION GUIDE
+           ============================================ */
+        
+        .migration-section {
+            padding: var(--space-4xl) var(--space-xl);
+            background: var(--detax-dark);
+        }
+
+        .code-block {
+            background: var(--detax-black);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            overflow-x: auto;
+            margin-top: var(--space-lg);
+            border: 1px solid var(--detax-slate);
+        }
+
+        .code-block pre {
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            color: var(--detax-text-secondary);
+        }
+
+        .code-block .comment { color: var(--detax-text-muted); }
+        .code-block .property { color: var(--detax-green); }
+        .code-block .value { color: #f59e0b; }
+        .code-block .selector { color: #60a5fa; }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        
+        .footer {
+            padding: var(--space-3xl) var(--space-xl);
+            background: var(--detax-black);
+            border-top: 1px solid var(--detax-slate);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            letter-spacing: -1px;
+            margin-bottom: var(--space-md);
+        }
+
+        .footer-logo .de { color: var(--detax-white); }
+        .footer-logo .tax { color: var(--detax-green); }
+
+        .footer-text {
+            color: var(--detax-text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-logo {
+                letter-spacing: -3px;
+            }
+
+            .brand-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .color-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="#" class="nav-logo"><span class="de">de</span><span class="tax">tax</span></a>
+        <ul class="nav-links">
+            <li><a href="#features">Funkcje</a></li>
+            <li><a href="#brand">Brand</a></li>
+            <li><a href="#migration">Migracja CSS</a></li>
+        </ul>
+        <a href="#" class="nav-cta">Rozpocznij</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-logo">
+                <span class="de">de</span><span class="tax">tax</span>
+            </div>
+            <p class="hero-tagline">Odetchnij od podatków</p>
+            <p class="hero-description">
+                Polski asystent AI dla przedsiębiorców. KSeF, ZUS, VAT, B2B — wszystko w jednym miejscu, 
+                wyjaśnione prostym językiem.
+            </p>
+            <div class="hero-cta">
+                <a href="#" class="btn-primary">Wypróbuj za darmo</a>
+                <a href="#brand" class="btn-secondary">Brand Guidelines</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <p class="section-label">Funkcje</p>
+            <h2 class="section-title">Twój detoks podatkowy</h2>
+            <p class="section-description">
+                Wszystko czego potrzebujesz, żeby prowadzić firmę bez stresu związanego z przepisami.
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📄</div>
+                <h3 class="feature-title">KSeF</h3>
+                <p class="feature-description">
+                    Terminy wdrożenia, wymagania techniczne, procedury e-faktur. Wszystko o Krajowym Systemie e-Faktur.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💼</div>
+                <h3 class="feature-title">B2B</h3>
+                <p class="feature-description">
+                    Ocena ryzyka przekwalifikowania umowy na etat. Kryteria PIP, bezpieczne praktyki, optymalizacja.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🏥</div>
+                <h3 class="feature-title">ZUS</h3>
+                <p class="feature-description">
+                    Składki 2025/2026, składka zdrowotna na ryczałcie, kalkulacje, terminy płatności.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3 class="feature-title">VAT</h3>
+                <p class="feature-description">
+                    JPK_VAT, GTU, VAT OSS, progi i stawki. Rozliczenia międzynarodowe i krajowe.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Guidelines Section -->
+    <section class="brand-section" id="brand">
+        <div class="section-header">
+            <p class="section-label">Brand Guidelines</p>
+            <h2 class="section-title">System identyfikacji wizualnej</h2>
+            <p class="section-description">
+                Kompletna dokumentacja marki Detax — logo, kolory, typografia i wytyczne.
+            </p>
+        </div>
+
+        <div class="brand-grid">
+            
+            <!-- Logo Variants -->
+            <div class="brand-card">
+                <h3 class="brand-card-title">Logo — Warianty</h3>
+                <div class="logo-variants">
+                    
+                    <!-- Horizontal Dark -->
+                    <div class="logo-variant dark">
+                        <div class="logo-horizontal dark-version">
+                            <span class="de">de</span><span class="tax">tax</span>
+                        </div>
+                        <span class="variant-label">Poziome — ciemne tło</span>
+                    </div>
+
+                    <!-- Horizontal Light -->
+                    <div class="logo-variant light">
+                        <div class="logo-horizontal light-version">
+                            <span class="de">de</span><span class="tax">tax</span>
+                        </div>
+                        <span class="variant-label">Poziome — jasne tło</span>
+                    </div>
+
+                    <!-- Vertical Dark -->
+                    <div class="logo-variant dark">
+                        <div class="logo-vertical dark-version">
+                            <span class="de">de</span><span class="tax">tax</span>
+                        </div>
+                        <span class="variant-label">Pionowe — ciemne tło</span>
+                    </div>
+
+                    <!-- Vertical Light -->
+                    <div class="logo-variant light">
+                        <div class="logo-vertical light-version">
+                            <span class="de">de</span><span class="tax">tax</span>
+                        </div>
+                        <span class="variant-label">Pionowe — jasne tło</span>
+                    </div>
+
+                    <!-- Box Icons -->
+                    <div class="logo-variant dark" style="flex-direction: row; justify-content: center; gap: 32px;">
+                        <div style="text-align: center;">
+                            <div class="logo-box dark-version"><span>D</span></div>
+                            <span class="variant-label" style="margin-top: 8px; display: block;">Box Dark</span>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="logo-box light-version"><span>D</span></div>
+                            <span class="variant-label" style="margin-top: 8px; display: block;">Box Light</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Color Palette -->
+            <div class="brand-card">
+                <h3 class="brand-card-title">Paleta kolorów</h3>
+                <div class="color-grid">
+                    
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #22c55e;">
+                            <span style="color: #000; font-size: 0.75rem; font-weight: 600;">PRIMARY</span>
+                        </div>
+                        <div class="color-info">
+                            <div class="color-name">Detax Green</div>
+                            <div class="color-value">#22c55e</div>
+                        </div>
+                    </div>
+
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #16a34a;">
+                            <span style="color: #fff; font-size: 0.75rem; font-weight: 600;">DARK</span>
+                        </div>
+                        <div class="color-info">
+                            <div class="color-name">Green Dark</div>
+                            <div class="color-value">#16a34a</div>
+                        </div>
+                    </div>
+
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #0a0a0a;">
+                            <span style="color: #fff; font-size: 0.75rem; font-weight: 600;">BLACK</span>
+                        </div>
+                        <div class="color-info">
+                            <div class="color-name">Detax Black</div>
+                            <div class="color-value">#0a0a0a</div>
+                        </div>
+                    </div>
+
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #0f172a;">
+                            <span style="color: #fff; font-size: 0.75rem; font-weight: 600;">DARK</span>
+                        </div>
+                        <div class="color-info">
+                            <div class="color-name">Detax Dark</div>
+                            <div class="color-value">#0f172a</div>
+                        </div>
+                    </div>
+
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #1e293b;">
+                            <span style="color: #fff; font-size: 0.75rem; font-weight: 600;">SLATE</span>
+                        </div>
+                        <div class="color-info">
+                            <div class="color-name">Detax Slate</div>
+                            <div class="color-value">#1e293b</div>
+                        </div>
+                    </div>
+
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #ffffff; border: 1px solid #e2e8f0;">
+                            <span style="color: #000; font-size: 0.75rem; font-weight: 600;">WHITE</span>
+                        </div>
+                        <div class="color-info">
+                            <div class="color-name">Detax White</div>
+                            <div class="color-value">#ffffff</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Typography -->
+            <div class="brand-card">
+                <h3 class="brand-card-title">Typografia</h3>
+                
+                <div class="type-sample">
+                    <div class="type-label">Display Font</div>
+                    <div class="type-display">Archivo Black</div>
+                    <div class="type-weights">
+                        <span class="type-weight">900 Black</span>
+                    </div>
+                </div>
+
+                <div class="type-sample">
+                    <div class="type-label">Body Font</div>
+                    <div class="type-body">Outfit — nowoczesny, czytelny font dla tekstu.</div>
+                    <div class="type-weights">
+                        <span class="type-weight">300 Light</span>
+                        <span class="type-weight">400 Regular</span>
+                        <span class="type-weight">500 Medium</span>
+                        <span class="type-weight">600 SemiBold</span>
+                        <span class="type-weight">700 Bold</span>
+                    </div>
+                </div>
+
+                <div class="type-sample">
+                    <div class="type-label">Użycie</div>
+                    <div class="guideline-item guideline-do">
+                        <div class="guideline-label">✓ Tak</div>
+                        <div class="guideline-text">Archivo Black dla logo i nagłówków. Outfit dla tekstu.</div>
+                    </div>
+                    <div class="guideline-item guideline-dont">
+                        <div class="guideline-label">✗ Nie</div>
+                        <div class="guideline-text">Nie mieszaj innych fontów. Nie używaj cienkich wag dla logo.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage Guidelines -->
+            <div class="brand-card">
+                <h3 class="brand-card-title">Wytyczne użycia</h3>
+                
+                <div class="guideline-item guideline-do">
+                    <div class="guideline-label">✓ Minimalna przestrzeń</div>
+                    <div class="guideline-text">Zachowaj odstęp równy wysokości litery "D" wokół logo.</div>
+                </div>
+
+                <div class="guideline-item guideline-do">
+                    <div class="guideline-label">✓ Kontrast</div>
+                    <div class="guideline-text">Używaj wersji dark na ciemnych tłach, light na jasnych.</div>
+                </div>
+
+                <div class="guideline-item guideline-do">
+                    <div class="guideline-label">✓ Minimalny rozmiar</div>
+                    <div class="guideline-text">Nie zmniejszaj logo poniżej 24px wysokości.</div>
+                </div>
+
+                <div class="guideline-item guideline-dont">
+                    <div class="guideline-label">✗ Nie rozciągaj</div>
+                    <div class="guideline-text">Zachowuj oryginalne proporcje logo.</div>
+                </div>
+
+                <div class="guideline-item guideline-dont">
+                    <div class="guideline-label">✗ Nie zmieniaj kolorów</div>
+                    <div class="guideline-text">Używaj tylko oficjalnych wariantów kolorystycznych.</div>
+                </div>
+
+                <div class="guideline-item guideline-dont">
+                    <div class="guideline-label">✗ Nie dodawaj efektów</div>
+                    <div class="guideline-text">Bez cieni, gradientów, obramowań na samym logo.</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CSS Migration Guide -->
+    <section class="migration-section" id="migration">
+        <div class="section-header">
+            <p class="section-label">Dla developerów</p>
+            <h2 class="section-title">Migracja CSS — Bielik → Detax</h2>
+            <p class="section-description">
+                Wytyczne jak zmienić kolorystykę istniejącej strony Bielik MVP na nowy branding Detax.
+            </p>
+        </div>
+
+        <div class="brand-card" style="max-width: 900px; margin: 0 auto;">
+            <h3 class="brand-card-title">Zamiana zmiennych CSS</h3>
+            
+            <div class="code-block">
+                <pre><span class="comment">/* ============================================
+   BIELIK → DETAX: Migracja zmiennych CSS
+   Zamień w pliku style.css
+   ============================================ */</span>
+
+<span class="selector">:root</span> {
+    <span class="comment">/* PRZED (Bielik) → PO (Detax) */</span>
+    
+    <span class="comment">/* Tła */</span>
+    <span class="property">--bg-primary</span>: <span class="value">#0f172a</span>;     <span class="comment">/* bez zmian */</span>
+    <span class="property">--bg-secondary</span>: <span class="value">#1e293b</span>;   <span class="comment">/* bez zmian */</span>
+    <span class="property">--bg-tertiary</span>: <span class="value">#334155</span>;    <span class="comment">/* bez zmian */</span>
+    
+    <span class="comment">/* ACCENT: Niebieski → Zielony */</span>
+    <span class="property">--accent</span>: <span class="value">#22c55e</span>;          <span class="comment">/* było: #3b82f6 */</span>
+    <span class="property">--accent-hover</span>: <span class="value">#16a34a</span>;    <span class="comment">/* było: #2563eb */</span>
+    
+    <span class="comment">/* Success zostaje taki sam (już jest zielony) */</span>
+    <span class="property">--success</span>: <span class="value">#22c55e</span>;
+    
+    <span class="comment">/* Tekst */</span>
+    <span class="property">--text-primary</span>: <span class="value">#f1f5f9</span>;   <span class="comment">/* bez zmian */</span>
+    <span class="property">--text-secondary</span>: <span class="value">#94a3b8</span>; <span class="comment">/* bez zmian */</span>
+    <span class="property">--text-muted</span>: <span class="value">#64748b</span>;     <span class="comment">/* bez zmian */</span>
+    
+    <span class="comment">/* NOWE zmienne Detax */</span>
+    <span class="property">--detax-green</span>: <span class="value">#22c55e</span>;
+    <span class="property">--detax-green-dark</span>: <span class="value">#16a34a</span>;
+    <span class="property">--detax-green-glow</span>: <span class="value">rgba(34, 197, 94, 0.3)</span>;
+}</pre>
+            </div>
+
+            <h3 class="brand-card-title" style="margin-top: 32px;">Zamiana logo w HTML</h3>
+            
+            <div class="code-block">
+                <pre><span class="comment">&lt;!-- PRZED (Bielik) --&gt;</span>
+&lt;div class="logo"&gt;
+    &lt;span class="logo-icon"&gt;🦅&lt;/span&gt;
+    &lt;h1&gt;Bielik MVP&lt;/h1&gt;
+&lt;/div&gt;
+
+<span class="comment">&lt;!-- PO (Detax) --&gt;</span>
+&lt;div class="logo"&gt;
+    &lt;h1 class="detax-logo"&gt;
+        &lt;span class="de"&gt;de&lt;/span&gt;&lt;span class="tax"&gt;tax&lt;/span&gt;
+    &lt;/h1&gt;
+&lt;/div&gt;</pre>
+            </div>
+
+            <h3 class="brand-card-title" style="margin-top: 32px;">Nowe style logo</h3>
+            
+            <div class="code-block">
+                <pre><span class="comment">/* Dodaj do style.css */</span>
+
+<span class="selector">.detax-logo</span> {
+    <span class="property">font-family</span>: <span class="value">'Archivo Black', sans-serif</span>;
+    <span class="property">font-size</span>: <span class="value">2rem</span>;
+    <span class="property">letter-spacing</span>: <span class="value">-2px</span>;
+    <span class="property">background</span>: <span class="value">none</span>;
+    <span class="property">-webkit-text-fill-color</span>: <span class="value">unset</span>;
+}
+
+<span class="selector">.detax-logo .de</span> {
+    <span class="property">color</span>: <span class="value">#ffffff</span>;
+}
+
+<span class="selector">.detax-logo .tax</span> {
+    <span class="property">color</span>: <span class="value">#22c55e</span>;
+}
+
+<span class="comment">/* Usuń stary gradient z h1 */</span>
+<span class="selector">.logo h1</span> {
+    <span class="property">background</span>: <span class="value">none</span>;
+    <span class="property">-webkit-background-clip</span>: <span class="value">unset</span>;
+    <span class="property">-webkit-text-fill-color</span>: <span class="value">unset</span>;
+}</pre>
+            </div>
+
+            <h3 class="brand-card-title" style="margin-top: 32px;">Import fontów</h3>
+            
+            <div class="code-block">
+                <pre><span class="comment">&lt;!-- Dodaj w &lt;head&gt; pliku index.html --&gt;</span>
+&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"&gt;</pre>
+            </div>
+
+            <h3 class="brand-card-title" style="margin-top: 32px;">Checklist migracji</h3>
+            
+            <div class="guideline-item guideline-do">
+                <div class="guideline-label">1. Zmienne CSS</div>
+                <div class="guideline-text">Zamień --accent z #3b82f6 na #22c55e</div>
+            </div>
+            
+            <div class="guideline-item guideline-do">
+                <div class="guideline-label">2. Logo HTML</div>
+                <div class="guideline-text">Zamień emoji 🦅 i tekst "Bielik MVP" na nowe logo "detax"</div>
+            </div>
+            
+            <div class="guideline-item guideline-do">
+                <div class="guideline-label">3. Favicon</div>
+                <div class="guideline-text">Zamień favicon na nowy SVG z "D"</div>
+            </div>
+            
+            <div class="guideline-item guideline-do">
+                <div class="guideline-label">4. Tagline</div>
+                <div class="guideline-text">Zmień "Twój AI asystent prawno-podatkowy" na "Odetchnij od podatków"</div>
+            </div>
+            
+            <div class="guideline-item guideline-do">
+                <div class="guideline-label">5. Fonty</div>
+                <div class="guideline-text">Dodaj import Google Fonts dla Archivo Black i Outfit</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">
+            <span class="de">de</span><span class="tax">tax</span>
+        </div>
+        <p class="footer-text">© 2025 Detax. Odetchnij od podatków.</p>
+    </footer>
+
+</body>
+</html>

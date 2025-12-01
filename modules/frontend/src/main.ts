@@ -3,9 +3,6 @@ import { initDocumentsPanel } from './ui/documents';
 import { initProjectsPanel } from './ui/projects';
 import { initDashboardLayout } from './ui/dashboard';
 
-// Tymczasowo importujemy istniejący JS, dopóki całość nie będzie w TS
-import '../js/app.js';
-
 export function bootstrap() {
   document.addEventListener('DOMContentLoaded', () => {
     try {

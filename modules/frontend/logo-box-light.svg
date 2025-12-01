@@ -1,0 +1,18 @@
+<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&amp;display=swap');
+      .logo-letter { font-family: 'Archivo Black', Arial Black, sans-serif; font-size: 48px; font-weight: 900; }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="80" height="80" rx="16" fill="url(#greenGrad)"/>
+  
+  <!-- Letter D -->
+  <text x="40" y="56" text-anchor="middle" class="logo-letter" fill="#0f172a">D</text>
+</svg>
