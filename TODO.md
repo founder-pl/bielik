@@ -26,7 +26,7 @@ docker compose version  # >= 2.20
 mkdir -p ~/bielik-mvp && cd ~/bielik-mvp
 
 # 3. Sklonuj to repozytorium (lub skopiuj pliki)
-git clone https://github.com/softreck/bielik-mvp.git .
+git clone https://github.com/founder-pl/bielik-mvp.git .
 ```
 
 - [ ] Zainstalowany Docker Desktop/Engine
@@ -1245,7 +1245,7 @@ Minimalny asystent AI dla polskich przedsiębiorców, oparty na polskim modelu L
 
 ## Szybki start
 \`\`\`bash
-git clone https://github.com/softreck/bielik-mvp.git
+git clone https://github.com/founder-pl/bielik-mvp.git
 cd bielik-mvp
 chmod +x scripts/start.sh
 ./scripts/start.sh
@@ -1297,3 +1297,28 @@ Jeśli chcesz uruchomić w 1 dzień, pomiń:
 3. Historia rozmów w bazie
 4. Autentykacja użytkowników
 5. Deployment na Hetzner
+
+
+
+stworz CQRS i event sourcing dla projektu i używaj typescritp do frontendu, aby ustandaryzować layout i API w komunikacji z backend, używaj ustandaryzowanych nazw zmiennych z mapowaniem dla bazy danych i API
+
+dopisanie małego endpointu GET /api/v1/events/documents/{id} do podglądu historii zmian dokumentu 
+(czyli czytanie z domain_events) i pokazanie tej historii w panelu frontendu.
+
+Stworz API i klienta shell dla wszytkich akcji CQRS event sourcing dla projektu
+Struktura kontekstu , hierarchia danych systemu jest taka:
+Kontakty -> Projekty -> Pliki
+Hierarchia struktury Integracji jest wymaga wybrania Kanałów,
+po wybraniu kanału możliwe jest zobaczenie w kontekście ywbranego projektu które ułątwają w kontekscie mojej hierarchi skrzyżować dane, któ©e mogą być zaczatkiem mojego projektu 
+np Kontakt: Kontrahent -> Projekt: umowa sprzedaży -> Plik: Umowy
+pozwoli na wybranie z kanałwów tylko informacji, ktore są aktualnie związane, kanały dają perspektywe, czego dotyczy wątek lokalnie wybrany i co należy wiedzieć w perspektywie przepisów
+Kanały to rezultat sumy wyboru kontakt->projekt->plik i pozwala na poszerzenie kontekstu, poznanie szerszego kontekstu w przepisach
+to punkt wyjscia do zapytania bielika w chat
+
+
+dodaj testy e2e do sprawdzenia jak działa system w celu przetetstowania ladowania nowych dokumentow, edycji oraz zapytania w kontekscie tych dokumentow w trybie RAG
+
+Sprawdz czy sa zwracane poprawne requesty, dodaj do planu zadan nowe funkcje, ktore uspranwia obieg dokumentow
+
+dodaj zrodla pobeirania danych zwiazanych z prawnymi regulacjami itd
+dodaj integracje z systemem z API z urzedowymi i komercyjnymi  serisami tak jak w planie TODO.md 

@@ -37,7 +37,7 @@ class ChatRequest(BaseModel):
 class Source(BaseModel):
     """Źródło odpowiedzi."""
     title: str
-    source: str
+    source: Optional[str] = None
     category: str
     similarity: float
 

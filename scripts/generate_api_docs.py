@@ -13,10 +13,17 @@ import time
 from pathlib import Path
 from typing import Dict, List
 
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+
+# Upewnij się, że katalog główny repo jest na sys.path,
+# aby import "modules.api.main" działał niezależnie od miejsca uruchomienia.
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from modules.api.main import app
 
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
 DOCS_DIR = REPO_ROOT / "docs"
 WATCH_DIRS = [REPO_ROOT / "modules" / "api"]
 

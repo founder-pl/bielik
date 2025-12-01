@@ -12,7 +12,7 @@ help:
 	@echo "  make up           - tylko docker compose up -d (szybki start)"
 	@echo "  make down         - zatrzymaj kontenery"
 	@echo "  make stop         - alias do down"
-	@echo "  make restart      - szybki restart (down + up --build)"
+	@echo "  make restart      - szybki restart (down + build frontendu + up --build)"
 	@echo "  make rebuild      - twardy restart: usuń obrazy usług i zbuduj od zera"
 	@echo "  make logs         - logi wszystkich serwisów"
 	@echo "  make api-logs     - logi backendu API"
@@ -41,6 +41,7 @@ stop: down
 
 restart:
 	docker compose down
+	cd modules/frontend && npm run build:dev
 	docker compose up --build
 
 # Twardy restart: usuń stare obrazy usług i zbuduj od zera

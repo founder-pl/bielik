@@ -114,9 +114,10 @@ function initForm(): void {
     charCount.textContent = `${count}/2000`;
   });
 
-  input.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
+  input.addEventListener('keydown', (e) => {
+    const ev = e as KeyboardEvent;
+    if (ev.key === 'Enter' && !ev.shiftKey) {
+      ev.preventDefault();
       form.dispatchEvent(new Event('submit'));
     }
   });

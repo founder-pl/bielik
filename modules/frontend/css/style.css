@@ -9,17 +9,33 @@
 
 :root {
     /* Colors */
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
-    --accent: #3b82f6;
-    --accent-hover: #2563eb;
-    --success: #22c55e;
+    /* Detax brand tokens */
+    --detax-black: #0a0a0a;
+    --detax-dark: #0f172a;
+    --detax-slate: #1e293b;
+    --detax-gray: #334155;
+    --detax-green: #22c55e;
+    --detax-green-dark: #16a34a;
+    --detax-green-light: #4ade80;
+    --detax-green-glow: rgba(34, 197, 94, 0.3);
+    --detax-white: #ffffff;
+    --detax-text: #f1f5f9;
+    --detax-text-secondary: #94a3b8;
+    --detax-text-muted: #64748b;
+
+    /* Mapped app tokens */
+    --bg-primary: var(--detax-black);
+    --bg-secondary: var(--detax-dark);
+    --bg-tertiary: var(--detax-slate);
+    --text-primary: var(--detax-text);
+    --text-secondary: var(--detax-text-secondary);
+    --text-muted: var(--detax-text-muted);
+    --accent: var(--detax-green);
+    --accent-hover: var(--detax-green-dark);
+    --success: var(--detax-green);
     --warning: #f59e0b;
     --error: #ef4444;
+    --info: #3b82f6;
     
     /* Spacing */
     --space-xs: 4px;
@@ -27,17 +43,24 @@
     --space-md: 16px;
     --space-lg: 24px;
     --space-xl: 32px;
+    --space-2xl: 48px;
+    --space-3xl: 64px;
+    --space-4xl: 96px;
     
     /* Border radius */
     --radius-sm: 6px;
     --radius-md: 12px;
     --radius-lg: 16px;
+    --radius-xl: 24px;
     --radius-full: 9999px;
     
     /* Shadows */
     --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
     --shadow-md: 0 4px 6px rgba(0,0,0,0.3);
     --shadow-lg: 0 10px 15px rgba(0,0,0,0.3);
+    /* Typography */
+    --font-display: 'Archivo Black', sans-serif;
+    --font-body: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 html {
@@ -45,7 +68,7 @@ html {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-body);
     background: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
@@ -86,10 +109,16 @@ body {
 .logo h1 {
     font-size: 2rem;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--accent), #60a5fa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-family: var(--font-display);
+    letter-spacing: -2px;
+}
+
+.detax-logo .de {
+    color: var(--detax-white);
+}
+
+.detax-logo .tax {
+    color: var(--detax-green);
 }
 
 .tagline {
@@ -361,7 +390,7 @@ body {
 }
 
 .channel-item.recommended:not(.active) {
-    border: 1px dashed rgba(129, 140, 248, 0.7);
+    border: 1px dashed rgba(34, 197, 94, 0.7);
 }
 
 /* PRAWA STRONA: Projekty + Pliki */
@@ -396,8 +425,8 @@ body {
 
 body.dashboard-edit .main-layout {
     background-image:
-        linear-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+        linear-gradient(rgba(34, 197, 94, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34, 197, 94, 0.12) 1px, transparent 1px);
     background-size: 24px 24px;
 }
 
