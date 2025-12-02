@@ -34,26 +34,13 @@ services:
   #   #         capabilities: [gpu]
 
   # ============================================
-  # Baza danych - PostgreSQL z pgvector
+  # Baza danych - PostgreSQL z pgvector (external)
+  # Używamy istniejącego kontenera bielik-postgres
   # ============================================
-  postgres:
-    image: pgvector/pgvector:pg16
-    container_name: bielik-postgres
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-bielik}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-bielik_dev_2024}
-      POSTGRES_DB: ${POSTGRES_DB:-bielik_knowledge}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-    ports:
-      - "${POSTGRES_PORT:-5432}:5432"
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U bielik -d bielik_knowledge"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+  # postgres:
+  #   image: pgvector/pgvector:pg16
+  #   container_name: bielik-postgres
+  #   ... (wyłączone - używamy external)
 
   # ============================================
   # API Backend - FastAPI z RAG
@@ -64,14 +51,11 @@ services:
       dockerfile: Dockerfile
     container_name: bielik-api
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-bielik}:${POSTGRES_PASSWORD:-bielik_dev_2024}@${POSTGRES_HOST:-postgres}:5432/${POSTGRES_DB:-bielik_knowledge}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-bielik}:${POSTGRES_PASSWORD:-bielik_dev_2024}@${POSTGRES_HOST:-bielik-postgres}:5432/${POSTGRES_DB:-bielik_knowledge}
       OLLAMA_URL: http://host.docker.internal:11434
       OLLAMA_MODEL: ${OLLAMA_MODEL:-mwiewior/bielik}
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    depends_on:
-      postgres:
-        condition: service_healthy
     ports:
       - "${API_PORT:-8000}:8000"
     volumes:
@@ -116,10 +100,12 @@ services:
   #     "
   #   restart: "no"
 
-volumes:
-  postgres_data:
-    name: bielik-postgres-data
+# volumes:
+#   postgres_data:
+#     name: bielik-postgres-data
+#     external: true
 
 networks:
   default:
     name: bielik-network
+    external: true
