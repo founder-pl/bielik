@@ -1,7 +1,10 @@
-"""Context Router - hierarchical context: Contact -> Projects -> Files -> Channels"""
+"""Context Router - hierarchical context: Contact -> Projects -> Files -> Channels
+Includes Nextcloud integration for e-Doręczenia messages context.
+"""
 from typing import Optional, List, Dict, Any
 import logging
 import os
+import requests
 
 from fastapi import APIRouter, HTTPException, Query
 import psycopg2
@@ -11,6 +14,12 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://bielik:bielik_dev_2024@localhost:5432/bielik_knowledge")
+
+# Nextcloud integration
+NEXTCLOUD_URL = os.getenv("NEXTCLOUD_URL", "http://localhost:8090")
+NEXTCLOUD_USER = os.getenv("NEXTCLOUD_USER", "admin")
+NEXTCLOUD_PASSWORD = os.getenv("NEXTCLOUD_PASSWORD", "admin")
+NEXTCLOUD_EDORECZENIA_FOLDER = os.getenv("NEXTCLOUD_FOLDER", "/e-Doreczenia")
 
 
 MODULES = [
@@ -181,3 +190,142 @@ async def get_context_hierarchy():
     except Exception as e:
         logger.error(f"Error getting context hierarchy: {e}")
         raise HTTPException(status_code=500, detail="Nie udało się pobrać hierarchii kontekstu")
+
+
+# ═══════════════════════════════════════════════════════════════
+# NEXTCLOUD INTEGRATION - e-Doręczenia context
+# ═══════════════════════════════════════════════════════════════
+
+def _get_nextcloud_files(folder: str = "") -> List[Dict[str, Any]]:
+    """Pobierz listę plików z Nextcloud WebDAV."""
+    try:
+        url = f"{NEXTCLOUD_URL}/remote.php/dav/files/{NEXTCLOUD_USER}{NEXTCLOUD_EDORECZENIA_FOLDER}{folder}"
+        response = requests.request(
+            "PROPFIND",
+            url,
+            auth=(NEXTCLOUD_USER, NEXTCLOUD_PASSWORD),
+            headers={"Depth": "1"},
+            timeout=10
+        )
+        
+        if response.status_code in [200, 207]:
+            # Parse WebDAV response (simplified)
+            files = []
+            import re
+            hrefs = re.findall(r'<d:href>([^<]+)</d:href>', response.text)
+            for href in hrefs[1:]:  # Skip first (folder itself)
+                filename = href.split('/')[-1] or href.split('/')[-2]
+                files.append({
+                    "path": href,
+                    "filename": filename,
+                    "folder": folder
+                })
+            return files
+        return []
+    except Exception as e:
+        logger.error(f"Error getting Nextcloud files: {e}")
+        return []
+
+
+@router.get("/context/nextcloud")
+async def get_nextcloud_context(
+    folder: Optional[str] = Query(default="", description="Subfolder w e-Doreczenia (INBOX, SENT, etc.)"),
+    user_nip: Optional[str] = Query(default=None, description="NIP użytkownika dla kontekstu"),
+    user_company: Optional[str] = Query(default=None, description="Nazwa firmy użytkownika"),
+):
+    """
+    Pobierz kontekst z Nextcloud - wiadomości e-Doręczeń użytkownika.
+    
+    Struktura folderów:
+    - /e-Doreczenia/INBOX - wiadomości odebrane
+    - /e-Doreczenia/SENT - wiadomości wysłane
+    - /e-Doreczenia/DRAFTS - szkice
+    - /e-Doreczenia/ARCHIVE - archiwum
+    
+    AI Detax używa tego kontekstu do personalizowanych odpowiedzi.
+    """
+    try:
+        # Pobierz pliki z Nextcloud
+        files = _get_nextcloud_files(f"/{folder}" if folder else "")
+        
+        # Pobierz strukturę folderów
+        folders = []
+        for f in ["INBOX", "SENT", "DRAFTS", "ARCHIVE", "TRASH"]:
+            folder_files = _get_nextcloud_files(f"/{f}")
+            folders.append({
+                "name": f,
+                "count": len(folder_files),
+                "files": folder_files[:5]  # Limit do 5 plików
+            })
+        
+        return {
+            "status": "connected",
+            "nextcloud_url": NEXTCLOUD_URL,
+            "edoreczenia_folder": NEXTCLOUD_EDORECZENIA_FOLDER,
+            "user_context": {
+                "nip": user_nip,
+                "company": user_company,
+            },
+            "folders": folders,
+            "files": files[:20],  # Limit
+            "ai_context_available": True,
+            "message": "Kontekst e-Doręczeń dostępny dla AI"
+        }
+    except Exception as e:
+        logger.error(f"Error getting Nextcloud context: {e}")
+        return {
+            "status": "disconnected",
+            "error": str(e),
+            "ai_context_available": False
+        }
+
+
+@router.get("/context/user/{user_id}")
+async def get_user_context(
+    user_id: str,
+    nip: Optional[str] = Query(default=None),
+    company: Optional[str] = Query(default=None),
+    ade_address: Optional[str] = Query(default=None),
+):
+    """
+    Pobierz pełny kontekst użytkownika dla AI.
+    
+    Łączy dane z:
+    - IDCard.pl (dane firmy, aliasy email)
+    - Szyfromat.pl (wiadomości e-Doręczeń)
+    - Nextcloud (pliki, historia korespondencji)
+    
+    AI używa tego kontekstu do personalizowanych odpowiedzi.
+    """
+    try:
+        # Pobierz kontekst z Nextcloud
+        nextcloud_files = _get_nextcloud_files("/INBOX")
+        
+        # Rekomenduj moduły na podstawie kontekstu
+        context_text = f"{company or ''} {nip or ''} {ade_address or ''}"
+        recommended_modules = _recommend_channels(company, None, None)
+        
+        return {
+            "user_id": user_id,
+            "company": {
+                "name": company,
+                "nip": nip,
+                "ade_address": ade_address,
+            },
+            "email_context": {
+                "inbox_count": len(nextcloud_files),
+                "recent_messages": nextcloud_files[:5],
+                "source": "nextcloud"
+            },
+            "recommended_modules": recommended_modules,
+            "ai_features": [
+                "Odpowiedzi w kontekście Twojej firmy",
+                "Analiza wiadomości e-Doręczeń",
+                "Personalizowane porady prawne",
+                "Historia korespondencji z urzędami"
+            ],
+            "status": "ready"
+        }
+    except Exception as e:
+        logger.error(f"Error getting user context: {e}")
+        raise HTTPException(status_code=500, detail=str(e))

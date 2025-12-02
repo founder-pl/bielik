@@ -1,13 +1,25 @@
-# Bielik MVP - Makefile
+# Detax.pl - AI Asystent - Makefile
 
 include .env
 export
+
+# Domyślne wartości
+DETAX_DOMAIN ?= localhost
+API_PORT ?= 8005
+BACKEND_PORT ?= 8005
+FRONTEND_PORT ?= 3005
+DEMO_USER_EMAIL ?= demo@detax.pl
+DEMO_USER_PASSWORD ?= demo123
 
 .PHONY: help up start stop down restart rebuild logs api-logs frontend-logs ps build clean \
 	package package-upload publish publish-test test pull-model docs-api docs-api-watch \
 	cli cli-health cli-chat cli-docs cli-projects cli-sources cli-test frontend-build
 
 help:
+	@echo "═══════════════════════════════════════════════════════════════"
+	@echo "  Detax.pl - AI Asystent dla przedsiębiorców"
+	@echo "═══════════════════════════════════════════════════════════════"
+	@echo ""
 	@echo "Dostępne komendy:"
 	@echo "  make start        - uruchom wszystko (Ollama lokalna + Docker + model)"
 	@echo "  make up           - tylko docker compose up -d (szybki start)"
@@ -37,6 +49,15 @@ help:
 	@echo "  make cli-sources  - lista źródeł danych"
 	@echo "  make cli-test     - uruchom testy E2E"
 	@echo "  make frontend-build - zbuduj TypeScript frontend"
+	@echo ""
+	@echo "Dostęp:"
+	@echo "  Frontend:  http://$(DETAX_DOMAIN):$(FRONTEND_PORT)"
+	@echo "  API:       http://$(DETAX_DOMAIN):$(API_PORT)"
+	@echo "  API Docs:  http://$(DETAX_DOMAIN):$(API_PORT)/docs"
+	@echo ""
+	@echo "Demo konto:"
+	@echo "  Email:    $(DEMO_USER_EMAIL)"
+	@echo "  Hasło:    $(DEMO_USER_PASSWORD)"
 
 up:
 	docker compose up -d
