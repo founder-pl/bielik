@@ -1,4 +1,5 @@
 <img width="701" height="455" alt="obraz" src="https://github.com/user-attachments/assets/899ab904-2298-465a-bef5-74a684739308" />
+
 # detax is powered by Bielik 🦅 
 
 **Minimalny asystent AI dla polskich przedsiębiorców** oparty na polskim modelu LLM Bielik.
