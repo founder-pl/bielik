@@ -52,10 +52,10 @@ services:
     container_name: bielik-api
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-bielik}:${POSTGRES_PASSWORD:-bielik_dev_2024}@${POSTGRES_HOST:-bielik-postgres}:5432/${POSTGRES_DB:-bielik_knowledge}
-      OLLAMA_URL: http://host.docker.internal:11434
-      OLLAMA_MODEL: ${OLLAMA_MODEL:-mwiewior/bielik}
+      OLLAMA_URL: ${OLLAMA_URL:-http://172.17.0.1:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-llama3.1:8b}
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.docker.internal:172.17.0.1"
     ports:
       - "${API_PORT:-8000}:8000"
     volumes:

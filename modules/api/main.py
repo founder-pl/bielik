@@ -80,3 +80,50 @@ def root():
         "docs": "/docs",
         "health": "/health"
     }
+
+
+# ═══════════════════════════════════════════════════════════════
+# SSO - Single Sign-On from IDCard.pl
+# ═══════════════════════════════════════════════════════════════
+
+import jwt
+import os
+from datetime import datetime, timedelta
+from starlette.responses import RedirectResponse
+
+@app.get("/sso", tags=["auth"])
+async def sso_login(token: str, redirect: str = "/"):
+    """
+    SSO endpoint - loguje użytkownika tokenem z IDCard.pl
+    Przekierowuje do frontendu z tokenem w URL
+    """
+    SSO_SECRET = os.getenv("SSO_SECRET", "idcard-secret-key-change-in-production")
+    JWT_SECRET = os.getenv("JWT_SECRET", "detax-secret-key-change-in-production")
+    
+    try:
+        # Weryfikuj token z IDCard.pl
+        payload = jwt.decode(token, SSO_SECRET, algorithms=["HS256"])
+        user_id = payload.get("sub")
+        email = payload.get("email")
+        
+        if not user_id:
+            return {"error": "Invalid token"}
+        
+        # Utwórz lokalny token dla Detax
+        local_token = jwt.encode({
+            "sub": user_id,
+            "email": email,
+            "exp": datetime.utcnow() + timedelta(hours=24),
+            "iat": datetime.utcnow(),
+            "iss": "detax.pl",
+            "sso_from": "idcard.pl"
+        }, JWT_SECRET, algorithm="HS256")
+        
+        # Przekieruj do frontendu z tokenem
+        frontend_url = f"http://localhost:3005{redirect}?sso_token={local_token}"
+        return RedirectResponse(url=frontend_url, status_code=302)
+        
+    except jwt.ExpiredSignatureError:
+        return {"error": "Token expired"}
+    except jwt.InvalidTokenError:
+        return {"error": "Invalid token"}
